@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild
+  - supabase
+  - unrs-resolver
+  - vue-demi
