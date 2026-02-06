@@ -4,4 +4,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/eslint", "@nuxt/ui", "@nuxtjs/supabase"],
   css: ["~/assets/css/main.css"],
+
+  supabase: {
+    redirectOptions: {
+      login: "/auth/login",
+      callback: "/confirm",
+      include: undefined,
+      exclude: ["/auth/register"],
+    },
+  },
 });

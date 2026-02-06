@@ -19,26 +19,12 @@ const fields: AuthFormField[] = [
     placeholder: "Enter your password",
     required: true,
   },
-  {
-    name: "confirmPassword",
-    label: "Confirm Password",
-    type: "password",
-    placeholder: "Confirm your password",
-    required: true,
-  },
 ];
 
-const schema = z
-  .object({
-    email: z.email("Invalid email"),
-    password: z
-      .string("Password is required")
-      .min(8, "Must be at least 8 characters"),
-    confirmPassword: z.string("Please confirm your password"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-  });
+const schema = z.object({
+  email: z.email("Invalid email"),
+  password: z.string("Password is required"),
+});
 
 type Schema = z.output<typeof schema>;
 
@@ -46,7 +32,7 @@ const supabase = useSupabaseClient();
 
 async function onSubmit(payload: FormSubmitEvent<Schema>) {
   await supabase.auth
-    .signUp({
+    .signInWithPassword({
       email: payload.data.email,
       password: payload.data.password,
     })
@@ -70,8 +56,8 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     <UPageCard class="w-full max-w-md">
       <UAuthForm
         :schema="schema"
-        title="Créer un compte"
-        description="Renseignez vos informations pour créer un compte."
+        title="Connexion"
+        description="Renseignez vos informations pour vous connecter."
         icon="i-lucide-user"
         :fields="fields"
         @submit="onSubmit"
