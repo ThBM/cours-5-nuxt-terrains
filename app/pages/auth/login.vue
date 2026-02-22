@@ -9,21 +9,19 @@ const fields: AuthFormField[] = [
     name: "email",
     type: "email",
     label: "Email",
-    placeholder: "Enter your email",
     required: true,
   },
   {
     name: "password",
-    label: "Password",
+    label: "Mot de passe",
     type: "password",
-    placeholder: "Enter your password",
     required: true,
   },
 ];
 
 const schema = z.object({
-  email: z.email("Invalid email"),
-  password: z.string("Password is required"),
+  email: z.email("Email invalide"),
+  password: z.string("Le mot de passe est requis"),
 });
 
 type Schema = z.output<typeof schema>;
@@ -52,7 +50,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center gap-4 p-4">
+  <div class="h-screen flex flex-col items-center justify-center gap-4 p-4">
     <UPageCard class="w-full max-w-md">
       <UAuthForm
         :schema="schema"
@@ -60,8 +58,16 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
         description="Renseignez vos informations pour vous connecter."
         icon="i-lucide-user"
         :fields="fields"
+        :submit="{ label: 'Se connecter' }"
         @submit="onSubmit"
-      />
+      >
+        <template #description>
+          Vous n'avez pas de compte ?
+          <ULink to="/auth/register" class="text-primary font-medium"
+            >Créer un compte</ULink
+          >.
+        </template>
+      </UAuthForm>
     </UPageCard>
   </div>
 </template>

@@ -14,30 +14,28 @@ const fields: AuthFormField[] = [
   },
   {
     name: "password",
-    label: "Password",
+    label: "Mot de passe",
     type: "password",
-    placeholder: "Enter your password",
     required: true,
   },
   {
     name: "confirmPassword",
-    label: "Confirm Password",
+    label: "Confirmer le mot de passe",
     type: "password",
-    placeholder: "Confirm your password",
     required: true,
   },
 ];
 
 const schema = z
   .object({
-    email: z.email("Invalid email"),
+    email: z.email("Email invalide"),
     password: z
-      .string("Password is required")
-      .min(8, "Must be at least 8 characters"),
-    confirmPassword: z.string("Please confirm your password"),
+      .string("Le mot de passe est requis")
+      .min(8, "Le mot de passe doit contenir au moins 8 caractères"),
+    confirmPassword: z.string("La confirmation du mot de passe est requise"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Les mots de passe ne correspondent pas",
   });
 
 type Schema = z.output<typeof schema>;
@@ -66,7 +64,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center gap-4 p-4">
+  <div class="h-screen flex flex-col items-center justify-center gap-4 p-4">
     <UPageCard class="w-full max-w-md">
       <UAuthForm
         :schema="schema"
@@ -75,7 +73,14 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
         icon="i-lucide-user"
         :fields="fields"
         @submit="onSubmit"
-      />
+      >
+        <template #description>
+          Vous avez déjà un compte ?
+          <ULink to="/auth/login" class="text-primary font-medium"
+            >Se connecter</ULink
+          >.
+        </template>
+      </UAuthForm>
     </UPageCard>
   </div>
 </template>
