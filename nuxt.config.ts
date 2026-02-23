@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   modules: ["@nuxt/eslint", "@nuxt/ui", "@nuxtjs/supabase"],
   css: ["~/assets/css/main.css"],
 
+  ui: {
+    colorMode: false,
+  },
+
   supabase: {
     redirectOptions: {
       login: "/auth/login",
