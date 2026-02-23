@@ -10,6 +10,10 @@ const props = defineProps<{
     orientation_facade: string;
   }[];
 }>();
+
+const emit = defineEmits<{
+  edit: [id: string];
+}>();
 </script>
 
 <template>
@@ -45,6 +49,9 @@ const props = defineProps<{
           <strong>Orientation de la Façade :</strong>
           {{ terrain.orientation_facade }}
         </p>
+      </div>
+      <div>
+        <UButton icon="i-lucide-edit" @click="emit('edit', terrain.id)" />
       </div>
     </UCard>
   </div>
