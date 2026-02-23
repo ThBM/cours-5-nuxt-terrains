@@ -6,10 +6,15 @@ async function logout() {
   await navigateTo("/auth/login");
 }
 
-const { data, pending } = useAsyncData("terrains", async () => {
+const { data, pending, refresh } = useAsyncData("terrains", async () => {
   const { data } = await supabase.from("terrains").select("*");
   return data;
 });
+
+async function handleDelete(id: string) {
+  await supabase.from("terrains").delete().eq("id", id);
+  await refresh();
+}
 </script>
 
 <template>
@@ -33,6 +38,7 @@ const { data, pending } = useAsyncData("terrains", async () => {
         v-else
         :terrains="data!"
         @edit="navigateTo(`/terrains/${$event}`)"
+        @delete="handleDelete($event)"
       />
     </UContainer>
   </div>

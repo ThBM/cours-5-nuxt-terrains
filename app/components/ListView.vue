@@ -13,6 +13,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   edit: [id: string];
+  delete: [id: string];
 }>();
 </script>
 
@@ -52,6 +53,7 @@ const emit = defineEmits<{
       </div>
       <div>
         <UButton icon="i-lucide-edit" @click="emit('edit', terrain.id)" />
+        <UButton icon="i-lucide-trash" @click="emit('delete', terrain.id)" color="error" />
       </div>
     </UCard>
   </div>
